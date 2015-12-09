@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
 
-iface=$(airmon-ng \
-        | grep wlan \
-        | awk '{print $2}' \
-)
+
+# functions:
+# ---------
+# start_mon
+# stop_mon
+# create_session
+
 
 start_mon() {
+    # start defined number of monitor interfaces
+
+    iface=$(airmon-ng \
+            | grep wlan \
+            | awk '{print $2}' \
+    )
+
     for ((i=1; i<=$1; i++))
     do
         airmon-ng start ${iface}
@@ -13,6 +23,8 @@ start_mon() {
 }
 
 stop_mon() {
+    # stop all detected monitor interfaces
+
     imon=$(airmon-ng \
             | grep mon \
             | awk '{print $2}' \
@@ -25,6 +37,11 @@ stop_mon() {
 }
 
 create_session() {
+    # --- MOCK FUNCTION ---
+    # create tmux sessions
+    # send mdk3 into each window
+    # attach to the session
+
     sn="woops"
     tmux new-session -s "$sn" -d
     for (( i=1; i<=$1; i++))
@@ -36,7 +53,7 @@ create_session() {
 }
 
 main() {
-    start_mon $1
+    # start_mon $1
     create_session $1
 }
 
