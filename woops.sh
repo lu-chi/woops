@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#!/usr/bin/env bash
 
 
 # functions:
@@ -10,29 +11,21 @@
 
 start_mon() {
     # start defined number of monitor interfaces
-
     iface=$(airmon-ng \
             | grep wlan \
             | awk '{print $2}' \
     )
-
     for ((i=1; i<=$1; i++))
     do
-        airmon-ng start ${iface}
+        iw $iface interface add mon$i type monitor
     done
 }
 
 stop_mon() {
     # stop all detected monitor interfaces
-
-    imon=$(airmon-ng \
-            | grep mon \
-            | awk '{print $2}' \
-    )
-
-    for i in ${imon}
+    for i in $(ifconfig | grep mon | awk '{print $1}')
     do
-        airmon-ng stop $i        
+        iw $i interface del
     done
 }
 
@@ -49,13 +42,10 @@ create_session() {
         tmux new-window -t "$i"
         tmux send-keys -t "$i" "ls" C-m
     done
-    tmux attach-session -d 
+    tmux attach-session -d
 }
 
-main() {
-    # start_mon $1
-    create_session $1
-}
-
-main $1
+#start_mon $1
+stop_mon
+#create_session $1
 
