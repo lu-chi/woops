@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-iface=$(airmon-ng | grep wlan | awk '{print $2}')
+iface=$(airmon-ng \
+        | grep wlan \
+        | awk '{print $2}' \
+)
 
 start_mon() {
     for ((i=1; i<=$1; i++))
@@ -10,7 +13,11 @@ start_mon() {
 }
 
 stop_mon() {
-    imon=$(airmon-ng | grep mon | awk '{print $2}')
+    imon=$(airmon-ng \
+            | grep mon \
+            | awk '{print $2}' \
+    )
+
     for i in ${imon}
     do
         airmon-ng stop $i        
