@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/usr/bin/env bash
 
 
 # functions:
@@ -9,12 +8,26 @@
 # create_session
 
 
+
+detect_wlan() {
+    # detect all wlans available
+    iface=($(airmon-ng | grep wlan | awk '{print $2}'))
+ }
+
+mac_spoof() {
+    # spoof the existing wlan mac address
+
+}
+
+choose_wlan() {
+    # choose wlan to work with 
+    #in case of more wlans detected
+
+}
+
 start_mon() {
     # start defined number of monitor interfaces
-    iface=$(airmon-ng \
-            | grep wlan \
-            | awk '{print $2}' \
-    )
+    iface=($(airmon-ng | grep wlan | awk '{print $2}'))
     for ((i=1; i<=$1; i++))
     do
         iw $iface interface add mon$i type monitor
@@ -30,6 +43,7 @@ stop_mon() {
 }
 
 create_session() {
+
     # --- MOCK FUNCTION ---
     # create tmux sessions
     # send mdk3 into each window
