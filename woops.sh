@@ -21,8 +21,20 @@ mac_spoof() {
 
 choose_wlan() {
     # choose wlan to work with 
-    #in case of more wlans detected
-
+    # in case of more wlans detected
+    ln=0
+    iface=($(airmon-ng | grep wlan | awk '{print $2}'))
+    if [ ${#iface[@]} -gt 1 ]; then
+        echo "Found ${#iface[@]} WLAN interfaces:"
+        for i in ${iface[@]}
+        do
+            ln=$((ln+=1))
+            echo "$ln. $i"
+        done
+        echo -n "Select interface:  "
+        read answer
+        echo ${iface[$answer-1]}
+    fi
 }
 
 start_mon() {
