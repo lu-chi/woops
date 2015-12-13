@@ -16,7 +16,10 @@ detect_wlan() {
 
 mac_spoof() {
     # spoof the existing wlan mac address
-
+    intf=$1
+    ifconfig $intf down
+    macchanger -r $intf
+    ifconfig $intf up
 }
 
 choose_wlan() {
